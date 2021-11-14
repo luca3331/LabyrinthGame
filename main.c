@@ -53,20 +53,29 @@ void print_map(point p,int dir){
 
 int main(void){
     int game_end = 0;
-    point cur_p;
+    point cur_p,pre_p;
     cur_p.x = 3;
     cur_p.y = 0;
-    int dir = 0;
+    int dir = 1;
     print_map(cur_p,dir);
     while(!game_end){
         int input;
+        pre_p.x = cur_p.x;pre_p.y = cur_p.y;
         input = get_input(INPUT_MIN,INPUT_MAX);
         if(input == 1){cur_p.y += 1;dir = 1;}
         if(input == 2){cur_p.y -= 1;dir = 2;}
         if(input == 3){cur_p.x += 1;dir = 3;}
         if(input == 4){cur_p.x -= 1;dir = 4;}
         if(input == 0){game_end = 1;}
+        if(cur_p.x > INPUT_MAX || cur_p.x < INPUT_MIN || cur_p.y > INPUT_MAX || cur_p.y < INPUT_MIN || map[cur_p.y][cur_p.x] == WALL){
+            puts("その方向には進めません！");
+            cur_p.x = pre_p.x;cur_p.y = pre_p.y;
+        }
+        if(map[cur_p.y][cur_p.x] == STRT){puts("スタート地点に戻ってしまいました．．．");}
+        if(map[cur_p.y][cur_p.x] == GOAL){
+            puts("ゴールに到達しました！");
+            game_end = 1;}
         print_map(cur_p,dir);
     }
     return 0;
-}
+}//ターミナルは言語の統合開発環境です．
